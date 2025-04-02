@@ -1,0 +1,36 @@
+from pathlib import Path
+import re    #if file include probems like 1000f
+
+def total_salary(path):
+    file_path = Path(path)
+
+    if not file_path.exists():
+        print(f"Файл '{file_path}' не знайдено!")
+        return None
+    all_salary= []
+    with open(file_path, 'r',  encoding='utf-8') as file:
+        for line in file:
+            numbers = re.findall(r'\d+', line)
+            if numbers:
+                salary = int(numbers[0])
+                all_salary.append(salary)
+
+        if not all_salary:
+            print("Не знайдено жодного коректного значення зарплати.")
+            return None
+
+        total_sum = sum(all_salary)
+        average_salary = total_sum / len(all_salary)
+
+    return total_sum, average_salary
+
+result = total_salary("Temp/salary.txt")
+
+
+    """salary_txt=Alex Korp,3000
+    Nikita Borisenko,2000+4500
+    Sitarama Raju,1000
+    Sitarama Raju,1000, ffffffff fffff ffff ffff ffffff
+    Sitarama Raju,1000f 1123456789
+    Sitarama Raju,1000f
+    fffff"""
