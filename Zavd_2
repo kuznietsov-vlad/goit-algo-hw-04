@@ -1,0 +1,37 @@
+from pathlib import Path
+import re
+
+def get_cats_info(path):
+    file_path = Path(path)
+    if not file_path.exists():
+        print(f"Files with name {file_path} not found")
+        return None
+    with open(file_path, 'r', encoding='utf-8') as  file:
+        pets_arr=[]
+
+        for line in file:
+             parts = line.strip().split(',')
+             #print(parts)
+
+             if len(parts) != 3:
+                continue
+             id, name, age, = parts
+             if (re.fullmatch(r"[0-9a-f]+", id) and
+                     re.fullmatch(r"[A-Za-zА-Яа-я]+", name) and
+                     re.fullmatch(r"\d+", age)):
+                pets_arr.append({'id': id, 'name':name, 'age': age,})
+    return pets_arr
+
+
+
+print(get_cats_info('Temp/pets.txt'))
+
+"""pets.txt = 60b90c1c13067a15887e1ae1,Tayson,3
+60b90c2413067a15887e1ae2,Vika,1
+60b90c2e13067a15887e1ae3,Barsik,2
+60b90c3b13067a15887e1ae4,Simon,12
+60b90c4613067a15887e1ae5,Tessi,5
+sabakasutula
+ljhgfdsxc
+678ughjm,6yhnjkl;
+60b90c3b13067a15881e1ae4,BAKA,12"""
