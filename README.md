@@ -1,1 +1,2 @@
-# goit-algo-hw-04
+# Homework 4
+## DZ_1, DZ_2, DZ-3
