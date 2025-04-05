@@ -1,0 +1,79 @@
+menu = """
+1)hello - print "How can I help you?
+2)add ___ +38______ - add new name and phone
+3)change __ +38____ - change number
+4)phone ___ - phone ____
+5)all - show all numbers
+6)close / exit - Good bye!
+"""
+welcome_banner= r"""
+    ____  __                          ____        __ 
+   / __ \/ /_  ____  ____  ___       / __ )____  / /_
+  / /_/ / __ \/ __ \/ __ \/ _ \     / __  / __ \/ __/
+ / ____/ / / / /_/ / / / /  __/    / /_/ / /_/ / /_  
+/_/   /_/ /_/\____/_/ /_/\___/____/_____/\____/\__/  
+                            /_____/                  
+"""
+def parse_input(user_input):
+    cmd, *args = user_input.split()
+    cmd = cmd.strip().lower()
+    return cmd, *args
+
+
+def add_contact(args, contacts):
+    name, phone_number = args
+    contacts[name] = phone_number
+    return 'Contact added'
+
+def change_contact(args, contacts):
+    name, new_phone_number = args
+    if name in contacts:
+        contacts[name] = new_phone_number
+        return "Contact updated."
+    else:
+        return 'Invalid name'
+
+def show_phone(args, contacts):
+    if len(args) != 1:
+        return f"Usage: phone [name]"
+    name = args[0]
+    if name in contacts:
+        return contacts[name]
+    else:
+        return "Invalid name."
+def show_all(contacts):
+    if not contacts:
+        return 'Not found any contact'
+    result =[]
+    for name, phone in contacts.items():
+        result.append(f'name:  {name} phone: {phone}')
+    return result
+
+def main():
+    contacts = {}
+    print(welcome_banner)
+    print()
+    print("Welcome to our Bot!")
+    print()
+    print(menu)
+    while True:
+        user_input = input('Please enter your command: ')
+        command, *args = parse_input(user_input)
+        if command == 'hello'.strip().lower():
+            print("How can I help you?")
+        elif command == 'add'.strip().lower():
+            print(add_contact(args, contacts))
+        elif command == 'change'.strip().lower():
+            print(change_contact(args, contacts))
+        elif command == 'phone'.strip().lower():
+            print(show_phone(args, contacts))
+        elif command == 'all'.strip().lower():
+            print(show_all(contacts))
+        elif command == 'close'.strip().lower() or command == 'exit'.strip().lower():
+            #print(contacts)
+            print("Good Bye!")
+            break
+        else:
+            print(f'Incorrect command, please write command from menu: \n{menu}\n')
+            continue
+main()
